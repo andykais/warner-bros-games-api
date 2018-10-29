@@ -1,0 +1,72 @@
+mutation {
+  # anybody
+  createUser(username: "username", email: "me@example.com") {
+    id
+  }
+  # user only
+  modifyUser(id: 1, email: "you@example.com", assignGame: "smashBros") {
+    id
+  }
+  # user only
+  deleteUser(id: 1)
+
+  # game developer specific
+  gameTitle {
+    smashBros {
+      user(id: 1) {
+        setStat(kills: 1)
+        addAchievement(achievement: "5PlayerKillStreak")
+        # match specific
+        match(id: 88) {
+          setStat(kills: 1)
+        }
+      }
+      startMatch(
+        players: [
+          { team: "A", id: 2 }
+          { team: "B", id: 2 }
+          { team: "B", id: 3 }
+        ]
+      ) {
+        id
+      }
+      endMatch(id: 88) {
+        id
+      }
+      deleteMatch(id: 88)
+    }
+  }
+}
+
+query {
+  user(id: 1) {
+    username
+    email
+    gameTitles(titleEquals: "smashBros") {
+      title
+      stats {
+        name
+        value
+      }
+      achievements {
+        name
+      }
+    }
+  }
+
+  gameTitle {
+    smashBros {
+      match(id: 88) {
+        players {
+          id
+          username
+          team
+          stats {
+            name
+            value
+          }
+        }
+      }
+    }
+  }
+}
