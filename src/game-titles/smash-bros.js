@@ -1,20 +1,23 @@
 export const title = 'smashBros'
 
 export const schema = {
-  stats: {
+  statsMap: {
     kos: {
       type: Number,
       default: 0
     },
-    longestWinStreak: Number
+    longestWinStreak: {
+      type: Number,
+      default: 0
+    }
   },
-  achievements: {
+  achievementsMap: {
     consecutiveWins5: Boolean
   }
 }
 
 export const documentation = {
-  stats: {
+  statsMap: {
     kos: {
       name: 'KOs',
       description: 'Total Knockouts'
@@ -24,7 +27,7 @@ export const documentation = {
       description: 'Longest Win Streak'
     }
   },
-  achievements: {
+  achievementsMap: {
     consecutiveWins5: {
       name: 'Five Consecutive Win-streak',
       description: 'Achieved when win five online matches in a row'

@@ -8,13 +8,19 @@ import { config } from '../../config'
 const tokens = {}
 
 const sign = ({ id, role, scope }) => {
-  const token = jwt.sign({ id }, config.tokens.secret)
+  const payloadToSign =
+    config.mode === 'development' ? { id, role, scope } : { id }
+  // in production, we want to control as much of the information as possible. In development, easier is better
+  const token = jwt.sign(payloadToSign, config.tokens.secret)
   tokens[token] = { id, role, scope }
   return token
 }
 
 export const verify = tokenStr => {
   const payload = jwt.verify(tokenStr, config.tokens.secret)
+  // this allows the developer to reuse a token even after the server restarts
+  if (config.mode === 'development') return payload
+  // only in production will we care if someone is using a token signed from somewhere else
   if (tokens[tokenStr]) return tokens[tokenStr]
   throw new Error('token does not exist.')
 }
@@ -23,6 +29,6 @@ export const createGameDeveloperToken = ({ gameTitle }) => {
   return sign({ id: gameTitle, role: 'developer', scope: [gameTitle] })
 }
 
-export const createUserToken = ({ userId }) => {
-  return sign({ id: userId, role: 'user', scope: ['user'] })
+export const createUserToken = ({ id }) => {
+  return sign({ id, role: 'user', scope: ['user'] })
 }

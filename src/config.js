@@ -1,5 +1,10 @@
 export const config = {
+  mode: process.env.NODE_ENV,
   port: process.env.PORT || 3000,
+  database: {
+    host: 'mongodb',
+    database: 'test'
+  },
   gameSecrets: {
     byteLength: 64
   },

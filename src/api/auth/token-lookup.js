@@ -1,18 +1,16 @@
 import * as jwt from './token'
+import { models } from '../../database/models'
 
-export const authenticationTokenLookup = req => {
+export const authenticationTokenLookup = async req => {
   const tokenStr = req.headers.authorization || ''
   const token = tokenStr.replace('Bearer ', '')
   if (token) {
     const payload = jwt.verify(token)
-    console.log(payload)
-    if (!payload) {
-      return {}
-    } else if (payload.role === 'developer') {
+    if (payload.role === 'developer') {
       return { authorization: payload }
     } else if (payload.role === 'user') {
-      // lookup user in mongodb
-      return { authorization: payload, user: null }
+      const user = await models.User.findOne({ _id: payload.id })
+      return { authorization: payload, user: user || undefined }
     } else {
       throw new Error(`Unexpected user token type: ${payload.user}`)
     }

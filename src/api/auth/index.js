@@ -3,13 +3,14 @@ import * as bodyParser from 'body-parser'
 import { secrets } from './secrets'
 import { config } from '../../config'
 import * as jwt from './token'
+import { models } from '../../database/models'
 
 export const router = express.Router()
 
 router.use(bodyParser.json())
 
 // developer authorization token
-router.post('/', (req, res) => {
+router.post('/developer', (req, res) => {
   const { client_id, client_secret } = req.body
   if (secrets[client_id] === client_secret) {
     const gameTitle = Buffer.from(client_id, 'hex').toString()
@@ -27,13 +28,54 @@ router.post('/', (req, res) => {
  * The purpose of the auth2 server-to-server flow is to demonstrate how one server may keep many different
  * developer teams in check. It is not necessarily secure.
  */
-router.get('/', (req, res) => {
+router.get('/developer', (req, res) => {
   const namedSecrets = Object.keys(secrets).map(hexKey => ({
-    game_title: Buffer.from(hexKey, 'hex').toString(),
-    client_id: hexKey,
-    client_secret: secrets[hexKey]
+    gameTitle: Buffer.from(hexKey, 'hex').toString(),
+    clientId: hexKey,
+    clientSecret: secrets[hexKey]
   }))
-  res.send(namedSecrets)
+  const htmlList = namedSecrets
+    .map(
+      ({ gameTitle, clientId, clientSecret }) =>
+        `<html>
+    <head>
+      <style>
+        body { font-family: monospace; }
+        ul { list-style: none; }
+        pre {
+          white-space: pre-wrap;
+          word-wrap: break-word;
+          background-color: lavender;
+          padding: 10px 5px;
+        }
+      </style>
+    </head>
+    <body>
+      <ul>
+        <li>
+          <h2>${gameTitle}</h2>
+          <div><strong>Client Id</strong> <code><pre>${clientId}</pre></code></div>
+          <div><strong>Client Secret</strong>
+              <code><pre>${clientSecret}</pre></code>
+          </div>
+        </li>
+      </ul>
+        </body>
+      </html>`
+    )
+    .join('\n')
+  res.send(htmlList)
+})
+
+router.post('/user', async (req, res) => {
+  const { email, password } = req.body
+  const user = await models.User.findOne({ email, password })
+  if (user) {
+    const token = jwt.createUserToken(user)
+    res.send({ token })
+  } else {
+    res.sendStatus(401)
+  }
 })
 /*
  * idea for auth:
