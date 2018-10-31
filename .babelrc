@@ -1,0 +1,22 @@
+{
+  "presets": [
+    [
+      "env",
+      {
+        "targets": {
+          "node": "10"
+        }
+      }
+    ],
+    "flow"
+  ],
+  "plugins": [
+    [
+      "flow-runtime",
+      {
+        "assert": true,
+        "annotate": true
+      }
+    ]
+  ]
+}

@@ -1,0 +1,7 @@
+mutation {
+  createUser(username: "user", email: "me@example.com", password: "pass") {
+    id
+  }
+}
+# now you can get an auth token using:
+# curl -X POST localhost:3000/auth/user -H "Content-Type: application/json" --data '{"email": "me@example.com", "password": "pass"}'

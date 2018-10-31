@@ -1,0 +1,45 @@
+type UserGameTitle {
+  title: String!
+  stats: [Stat]!
+  achievements: [Achievement]!
+  matchConnection(filters: [MatchFilterInput]): [Match]!
+}
+
+enum UserGameFilterFieldEnum {
+  title
+}
+input UserGameFilterInput {
+  field: UserGameFilterFieldEnum!
+  equals: String
+}
+
+type User {
+  id: ID!
+  username: String!
+  email: String!
+  gameTitleConnection(filters: [UserGameFilterInput]): [UserGameTitle]!
+}
+
+type AuthPayload {
+  token: String!
+  user: User!
+}
+
+type UserMutation {
+  update(username: String, email: String, password: String): User!
+  assignGame(title: GameTitleEnum): [UserGameTitle]!
+  removeGame(title: GameTitleEnum): [UserGameTitle]!
+}
+
+extend type Mutation {
+  # TODO move to auth endooint, just return regular user for createUser
+  # loginUser(email: String!, password: String!): AuthPayload!
+  createUser(username: String!, email: String!, password: String!): User!
+  # fields requiring auth token
+  deleteUser: Boolean
+  user: UserMutation
+}
+
+extend type Query {
+  user: User
+}

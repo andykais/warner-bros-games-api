@@ -1,0 +1,16 @@
+mutation {
+  user {
+    assignGame(title: chess) {
+      title
+      stats {
+        name
+        value
+      }
+      achievements {
+        key
+        description
+        value
+      }
+    }
+  }
+}

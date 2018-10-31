@@ -1,0 +1,15 @@
+"either an Int or Float, mongodb does not distinguish"
+scalar Number
+
+type Query {
+  _empty: String
+}
+
+type Mutation {
+  _empty: String
+}
+
+schema {
+  query: Query
+  mutation: Mutation
+}

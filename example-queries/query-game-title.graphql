@@ -1,0 +1,21 @@
+query {
+  gameTitle {
+    smashBros {
+      matchConnection(
+        # optionally add filters or omit to list all matches
+        filters: [{ field: id, equals: "5bd8e7aa23ebfa0238b7cdd9" }]
+      ) {
+        id
+        status
+        players {
+          userInfo {
+            id
+          }
+          stats {
+            value
+          }
+        }
+      }
+    }
+  }
+}

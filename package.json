@@ -1,0 +1,56 @@
+{
+  "name": "warner-bros-games-api",
+  "version": "1.0.0",
+  "description": "api to create, update, & delete user records",
+  "main": "src/index.js",
+  "scripts": {
+    "build": "webpack --mode=production",
+    "build:watch": "webpack --mode=development --watch",
+    "start:prod": "node dist/main",
+    "develop": "nodemon  --config ~/.nodemon.config.json --watch dist dist/main",
+    "lint": "git ls-files '*.js' '*.json' | xargs prettier -l",
+    "test": "jest",
+    "test:unit": "jest unit"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/andykais/warner-bros-games-api.git"
+  },
+  "author": "Andrew Kaiser",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/andykais/warner-bros-games-api/issues"
+  },
+  "homepage": "https://github.com/andykais/warner-bros-games-api#readme",
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-plugin-flow-runtime": "^0.17.0",
+    "babel-preset-env": "^1.7.0",
+    "jest": "^23.6.0",
+    "nodemon": "^1.18.5",
+    "prettier": "^1.14.3",
+    "regenerator-runtime": "^0.12.1",
+    "simpl-schema": "^1.5.3",
+    "source-map-support": "^0.5.9",
+    "webpack": "^4.23.1",
+    "webpack-cli": "^3.1.2",
+    "webpack-node-externals": "^1.7.2"
+  },
+  "dependencies": {
+    "apollo-server-express": "^2.1.0",
+    "babel-preset-flow": "^6.23.0",
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "flow-runtime": "^0.17.0",
+    "graphql": "^0.13.2",
+    "graphql-tag": "^2.10.0",
+    "graphql-tools": "^4.0.3",
+    "jsonwebtoken": "^8.3.0",
+    "mongoose": "^5.3.7"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.js$": "babel-jest"
+    }
+  }
+}

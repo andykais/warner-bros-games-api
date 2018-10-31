@@ -1,0 +1,24 @@
+query {
+  user {
+    id
+    username
+    email
+    gameTitleConnection {
+      title
+      stats {
+        name
+        value
+      }
+      achievements {
+        name
+        value
+      }
+      matchConnection(
+        # get the match that matches this id if it exists
+        filters: [{ field: id, equals: "5bd8e7aa23ebfa0238b7cdd9" }]
+      ) {
+        id
+      }
+    }
+  }
+}

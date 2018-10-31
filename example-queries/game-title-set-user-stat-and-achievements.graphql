@@ -1,0 +1,23 @@
+mutation {
+  gameTitle {
+    smashBros {
+      user(id: "5bd7c0f472bad2002cc1cfe7") {
+        setStat(kos: 5, longestWinStreak: 1) {
+          name
+          value
+        }
+        addAchievement(achievement: consecutiveWins5) {
+          name
+          value
+        }
+        # stats can be set specific to a match as well
+        match(id: "5bd7c0f472bad2002cc1cfe7") {
+          setStat(longestWinStreak: 10) {
+            name
+            value
+          }
+        }
+      }
+    }
+  }
+}

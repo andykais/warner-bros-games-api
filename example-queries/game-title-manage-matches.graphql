@@ -1,0 +1,44 @@
+mutation {
+  gameTitle {
+    smashBros {
+      createMatch(
+        players: [{ team: "Blue", userId: "5bd8e6711279ec019eb393e2" }]
+      ) {
+        id
+        players {
+          userInfo {
+            username
+          }
+        }
+      }
+
+      # using the match id, you can add and remove players anytime
+      match(id: "5bd8eb670583a40406253638") {
+        # set the match's status
+        update(status: IN_PROGRESS) {
+          status
+        }
+        # add new players
+        assignPlayers(
+          players: [{ team: "Red", userId: "5bd8e2a95b246f0ebfe2983a" }]
+        ) {
+          team
+          userInfo {
+            username
+          }
+        }
+        # remove players
+        removePlayers(playerIds: ["5bd8e2a95b246f0ebfe2983a"]) {
+          userInfo {
+            username
+          }
+        }
+      }
+
+      # matches can be deleted as well
+      deleteMatch(id: "5bd8eb670583a40406253638") {
+        id
+      }
+    }
+  }
+}

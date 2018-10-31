@@ -1,0 +1,24 @@
+version: '3'
+services:
+  user_record_api:
+    build: .
+    volumes:
+      - .:/usr/src/app
+    ports:
+      - 3000:3000
+    networks:
+      - db
+    depends_on:
+      - mongodb
+  mongodb:
+    image: 'mongo'
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - db
+
+volumes:
+  mongo-data:
+
+networks:
+  db:
